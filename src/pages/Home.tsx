@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { CATEGORIES } from '@/src/data/tools';
 import { AdSpace } from '@/src/components/AdSpace';
 import { useFavorites } from '@/src/context/FavoritesContext';
@@ -9,6 +10,12 @@ import { ArrowRight, Zap, Shield, Search, Star } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const { favorites } = useFavorites();
+
+  const title = "ToolStudio - Free Online Converters, Calculators & Generators";
+  const description = "Access 20+ free online tools. Converter units, calculate BMI, generate passwords, and more. Fast, secure, and no signup required.";
+  const keywords = "online tools, unit converter, calculators, password generator, free tools";
+  const url = "https://toolstudio-395896226429.us-west1.run.app/";
+  const ogImageUrl = "https://toolstudio-395896226429.us-west1.run.app/og-image.png";
 
   // Log home page view
   useEffect(() => {
@@ -34,6 +41,25 @@ export const Home: React.FC = () => {
 
   return (
     <div className="w-full">
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="keywords" content={keywords} />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={url} />
+        <meta property="og:image" content={ogImageUrl} />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImageUrl} />
+      </Helmet>
+
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-[#1a1a2e] to-[#16213e] py-16 px-4 text-center text-white border-b border-[#0066cc]/20">
         <div className="max-w-4xl mx-auto">

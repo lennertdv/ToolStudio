@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { CATEGORIES, Tool } from '@/src/data/tools';
+import { toolMetadata } from '@/src/lib/toolMetadata';
 import { AdSpace } from './AdSpace';
 import { useFavorites } from '@/src/context/FavoritesContext';
 import { logPageView } from '@/src/lib/analytics';
@@ -10,6 +12,7 @@ import { ArrowRight, Copy, Check, Star } from 'lucide-react';
 
 export const ToolTemplate: React.FC = () => {
   const { category, toolId } = useParams<{ category: string; toolId: string }>();
+  const location = useLocation();
   const { isFavorite, toggleFavorite } = useFavorites();
   const [values, setValues] = useState<Record<string, any>>({});
   const [result, setResult] = useState<string | string[] | null>(null);
@@ -19,6 +22,16 @@ export const ToolTemplate: React.FC = () => {
 
   const currentCategory = CATEGORIES.find((c) => c.id === category);
   const tool = currentCategory?.tools.find((t) => t.id === toolId);
+
+  // Get metadata for the current tool
+  const meta = toolMetadata[location.pathname] || {
+    title: `${tool?.name || 'Tool'} - ToolStudio`,
+    description: tool?.description || 'Free online tool from ToolStudio.',
+    keywords: 'online tool, free tool, converter, calculator'
+  };
+
+  const fullUrl = `https://toolstudio-395896226429.us-west1.run.app${location.pathname}`;
+  const ogImageUrl = `https://toolstudio-395896226429.us-west1.run.app/og-image.png`;
 
   // Log pageview
   useEffect(() => {
@@ -103,6 +116,25 @@ export const ToolTemplate: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
+      <Helmet>
+        <title>{meta.title}</title>
+        <meta name="description" content={meta.description} />
+        <meta name="keywords" content={meta.keywords} />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={meta.title} />
+        <meta property="og:description" content={meta.description} />
+        <meta property="og:url" content={fullUrl} />
+        <meta property="og:image" content={ogImageUrl} />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={meta.title} />
+        <meta name="twitter:description" content={meta.description} />
+        <meta name="twitter:image" content={ogImageUrl} />
+      </Helmet>
+
       {/* Header */}
       <div className="mb-12 text-center relative">
         <div className="absolute right-0 top-0">
