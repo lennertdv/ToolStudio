@@ -14,6 +14,12 @@ export const ToolTemplate: React.FC = () => {
   const { category, toolId } = useParams<{ category: string; toolId: string }>();
   const location = useLocation();
   const { isFavorite, toggleFavorite } = useFavorites();
+  
+  // Normalize path for metadata lookup (remove trailing slash)
+  const normalizedPath = location.pathname.endsWith('/') && location.pathname.length > 1 
+    ? location.pathname.slice(0, -1) 
+    : location.pathname;
+
   const [values, setValues] = useState<Record<string, any>>({});
   const [result, setResult] = useState<string | string[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +30,7 @@ export const ToolTemplate: React.FC = () => {
   const tool = currentCategory?.tools.find((t) => t.id === toolId);
 
   // Get metadata for the current tool
-  const meta = toolMetadata[location.pathname] || {
+  const meta = toolMetadata[normalizedPath] || {
     title: `${tool?.name || 'Tool'} - ToolStudio`,
     description: tool?.description || 'Free online tool from ToolStudio.',
     keywords: 'online tool, free tool, converter, calculator'
