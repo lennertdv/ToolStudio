@@ -1,15 +1,20 @@
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
-import appleletConfig from '../../firebase-applet-config.json';
+
+// Use a wildcard glob to safely attempt to load the config if it exists.
+// This prevents build failures on Vercel where the file might be missing due to .gitignore.
+const appletConfigs = import.meta.glob('../../firebase-applet-config*.json', { eager: true });
+const configModule: any = Object.values(appletConfigs)[0];
+const appletConfig: any = configModule?.default || configModule || {};
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || appleletConfig.apiKey,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || appleletConfig.authDomain,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || appleletConfig.projectId,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || appleletConfig.storageBucket,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || appleletConfig.messagingSenderId,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || appleletConfig.appId,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || appletConfig.apiKey,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || appletConfig.authDomain,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || appletConfig.projectId,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || appletConfig.storageBucket,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || appletConfig.messagingSenderId,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || appletConfig.appId,
 };
 
 let app: FirebaseApp | undefined;
@@ -20,7 +25,7 @@ if (firebaseConfig.apiKey) {
   try {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
     auth = getAuth(app);
-    const databaseId = import.meta.env.VITE_FIREBASE_FIRESTORE_DATABASE_ID || appleletConfig.firestoreDatabaseId || '(default)';
+    const databaseId = import.meta.env.VITE_FIREBASE_FIRESTORE_DATABASE_ID || appletConfig.firestoreDatabaseId || '(default)';
     db = getFirestore(app, databaseId);
   } catch (error) {
     console.error("Firebase initialization failed:", error);
