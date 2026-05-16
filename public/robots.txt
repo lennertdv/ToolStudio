@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Protect Admin Panel
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/*
+
+# Protect API Routes
+Disallow: /api
+Disallow: /api/
+Disallow: /api/*
+
+# Sitemap Location
+Sitemap: https://toolstudio-395896226429.us-west1.run.app/sitemap.xml

@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Main Page -->
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -10,25 +10,25 @@
 
   <!-- Static Pages -->
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/about</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/about</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/contact</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/contact</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/privacy</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/privacy</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/terms</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/terms</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -36,31 +36,31 @@
 
   <!-- Converters -->
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/converters/length</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/converters/length</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/converters/weight</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/converters/weight</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/converters/temperature</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/converters/temperature</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/converters/volume</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/converters/volume</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/converters/currency</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/converters/currency</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -68,31 +68,31 @@
 
   <!-- Calculators -->
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/calculators/bmi</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/calculators/bmi</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/calculators/calorie</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/calculators/calorie</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/calculators/age</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/calculators/age</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/calculators/tip</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/calculators/tip</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/calculators/mortgage</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/calculators/mortgage</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -100,19 +100,19 @@
 
   <!-- Crypto -->
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/crypto/converter</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/crypto/converter</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/crypto/mining</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/crypto/mining</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/crypto/fee</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/crypto/fee</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -120,25 +120,25 @@
 
   <!-- Text Tools -->
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/text/word-counter</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/text/word-counter</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/text/character-counter</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/text/character-counter</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/text/json-formatter</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/text/json-formatter</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/text/markdown</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/text/markdown</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -146,25 +146,25 @@
 
   <!-- Generators -->
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/generators/password</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/generators/password</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/generators/uuid</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/generators/uuid</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/generators/color-palette</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/generators/color-palette</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tool-studio-kohl.vercel.app/generators/name-generator</loc>
+    <loc>https://toolstudio-395896226429.us-west1.run.app/generators/name-generator</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
