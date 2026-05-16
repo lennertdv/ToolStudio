@@ -1,0 +1,23 @@
+{
+  "entities": {
+    "pageview": {
+      "title": "Pageview",
+      "description": "A record of a user visiting a specific tool page",
+      "type": "object",
+      "properties": {
+        "toolId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "path": { "type": "string" },
+        "userAgent": { "type": "string" }
+      },
+      "required": ["toolId", "categoryId", "timestamp", "path"]
+    }
+  },
+  "firestore": {
+    "pageviews": {
+      "schema": "pageview",
+      "description": "Collection of all pageviews for analytics"
+    }
+  }
+}
