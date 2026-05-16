@@ -11,8 +11,15 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
     function isAdmin() {
-      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        request.auth.token.email == "devlamincklennert@gmail.com"
+      );
     }
 
     function isValidPageview(data) {
@@ -30,10 +37,8 @@ service cloud.firestore {
 
     // Admins: Only admins can read/write admins collection (bootstrapped)
     match /admins/{userId} {
-      allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
-      // For initial setup, we might need a way to add an admin, 
-      // but usually this is done via console or a specific internal script.
-      // We will allow read of their own doc to check role.
+      allow read, write: if isAdmin();
+      allow read: if isSignedIn() && request.auth.uid == userId;
     }
   }
 }

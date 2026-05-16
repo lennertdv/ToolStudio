@@ -14,6 +14,7 @@ export const ToolTemplate: React.FC = () => {
   const [values, setValues] = useState<Record<string, any>>({});
   const [result, setResult] = useState<string | string[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string | null>>({});
   const [copied, setCopied] = useState(false);
 
   const currentCategory = CATEGORIES.find((c) => c.id === category);
@@ -36,6 +37,7 @@ export const ToolTemplate: React.FC = () => {
       setValues(initial);
       setResult(null);
       setError(null);
+      setValidationErrors({});
     }
   }, [tool]);
 
@@ -48,20 +50,46 @@ export const ToolTemplate: React.FC = () => {
     );
   }
 
-  const handleInputChange = (id: string, value: any) => {
+  const handleInputChange = (id: string, value: any, type?: string) => {
     setValues((prev) => ({ ...prev, [id]: value }));
+    
+    if (type === 'number') {
+      const numValue = parseFloat(value);
+      if (value === '' || value === undefined || value === null) {
+        setValidationErrors(prev => ({ ...prev, [id]: 'Required' }));
+      } else if (isNaN(numValue)) {
+        setValidationErrors(prev => ({ ...prev, [id]: 'Invalid number' }));
+      } else if (numValue <= 0) {
+        setValidationErrors(prev => ({ ...prev, [id]: 'Must be a positive number (> 0)' }));
+      } else {
+        setValidationErrors(prev => ({ ...prev, [id]: null }));
+      }
+    } else {
+      setValidationErrors(prev => ({ ...prev, [id]: null }));
+    }
   };
 
   const handleCalculate = () => {
     try {
       setError(null);
-      const res = tool.calculate(values);
+      
+      // Parse numbers before calculating
+      const parsedValues = { ...values };
+      tool.inputs.forEach(input => {
+        if (input.type === 'number') {
+          parsedValues[input.id] = parseFloat(values[input.id]);
+        }
+      });
+
+      const res = tool.calculate(parsedValues);
       setResult(res);
     } catch (err: any) {
       setError(err.message || 'An error occurred during calculation.');
       setResult(null);
     }
   };
+
+  const hasValidationErrors = Object.values(validationErrors).some(error => error !== null);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -110,7 +138,10 @@ export const ToolTemplate: React.FC = () => {
                 <select
                   value={values[input.id] || ''}
                   onChange={(e) => handleInputChange(input.id, e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066cc]/20 focus:border-[#0066cc] outline-none transition-all"
+                  className={cn(
+                    "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#0066cc]/20 focus:border-[#0066cc] outline-none transition-all",
+                    validationErrors[input.id] ? "border-red-500 bg-red-50" : "border-gray-300"
+                  )}
                 >
                   {input.options?.map((opt) => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -121,7 +152,10 @@ export const ToolTemplate: React.FC = () => {
                   value={values[input.id] || ''}
                   onChange={(e) => handleInputChange(input.id, e.target.value)}
                   placeholder={input.placeholder}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066cc]/20 focus:border-[#0066cc] outline-none transition-all h-48 font-mono text-sm"
+                  className={cn(
+                    "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#0066cc]/20 focus:border-[#0066cc] outline-none transition-all h-48 font-mono text-sm",
+                    validationErrors[input.id] ? "border-red-500 bg-red-50" : "border-gray-300"
+                  )}
                 />
               ) : input.type === 'checkbox' ? (
                 <div className="flex items-center space-x-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
@@ -138,31 +172,38 @@ export const ToolTemplate: React.FC = () => {
                   type="date"
                   value={values[input.id] || ''}
                   onChange={(e) => handleInputChange(input.id, e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066cc]/20 focus:border-[#0066cc] outline-none transition-all"
+                  className={cn(
+                    "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#0066cc]/20 focus:border-[#0066cc] outline-none transition-all",
+                    validationErrors[input.id] ? "border-red-500 bg-red-50" : "border-gray-300"
+                  )}
                 />
               ) : (
                 <input
                   type={input.type}
                   value={values[input.id] ?? ''}
-                  onChange={(e) => {
-                    const rawValue = e.target.value;
-                    if (input.type === 'number') {
-                      const parsed = parseFloat(rawValue);
-                      handleInputChange(input.id, isNaN(parsed) ? '' : parsed);
-                    } else {
-                      handleInputChange(input.id, rawValue);
-                    }
-                  }}
+                  onChange={(e) => handleInputChange(input.id, e.target.value, input.type)}
                   placeholder={input.placeholder}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066cc]/20 focus:border-[#0066cc] outline-none transition-all"
+                  className={cn(
+                    "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#0066cc]/20 focus:border-[#0066cc] outline-none transition-all",
+                    validationErrors[input.id] ? "border-red-500 bg-red-50" : "border-gray-300"
+                  )}
                 />
+              )}
+              {validationErrors[input.id] && (
+                <p className="text-red-500 text-xs mt-1 font-medium">{validationErrors[input.id]}</p>
               )}
             </div>
           ))}
 
           <button
             onClick={handleCalculate}
-            className="w-full bg-[#0066cc] hover:bg-[#0052a3] text-white font-bold py-4 rounded-lg transition-colors shadow-md flex items-center justify-center space-x-2"
+            disabled={hasValidationErrors}
+            className={cn(
+              "w-full font-bold py-4 rounded-lg transition-all shadow-md flex items-center justify-center space-x-2",
+              hasValidationErrors 
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-70" 
+                : "bg-[#0066cc] hover:bg-[#0052a3] text-white"
+            )}
           >
             <span>{category === 'generators' ? 'Generate' : 'Calculate'}</span>
             <ArrowRight className="w-5 h-5" />

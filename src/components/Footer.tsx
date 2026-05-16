@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
             <ul className="text-xs space-y-2">
               <li><Link to="/" className="hover:text-[#00d4ff] transition-colors">Home</Link></li>
               <li><Link to="/converters/length" className="hover:text-[#00d4ff] transition-colors">All Tools</Link></li>
-              <li><span className="cursor-pointer hover:text-[#00d4ff] transition-colors">Contact Us</span></li>
+              <li><Link to="/contact" className="hover:text-[#00d4ff] transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -32,9 +32,9 @@ export const Footer: React.FC = () => {
           <div className="space-y-4">
             <h4 className="text-white font-bold text-sm tracking-tight">Legal</h4>
             <ul className="text-xs space-y-2">
-              <li><span className="cursor-pointer hover:text-[#00d4ff] transition-colors">Privacy Policy</span></li>
-              <li><span className="cursor-pointer hover:text-[#00d4ff] transition-colors">Terms of Service</span></li>
-              <li><span className="cursor-pointer hover:text-[#00d4ff] transition-colors">Cookie Policy</span></li>
+              <li><Link to="/privacy" className="hover:text-[#00d4ff] transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-[#00d4ff] transition-colors">Terms of Service</Link></li>
+              <li><Link to="/privacy" className="hover:text-[#00d4ff] transition-colors">Cookie Policy</Link></li>
             </ul>
           </div>
         </div>

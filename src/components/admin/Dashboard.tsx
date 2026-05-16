@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { collection, query, orderBy, limit, getDocs, Timestamp } from 'firebase/firestore';
-import { db, auth } from '@/src/lib/firebase';
+import { db, auth, handleFirestoreError, OperationType } from '@/src/lib/firebase';
 import { CATEGORIES } from '@/src/data/tools';
 import { 
   Eye, BarChart2, TrendingUp, Users, 
@@ -36,15 +36,16 @@ export const Dashboard: React.FC = () => {
   const fetchData = async () => {
     if (!db) return;
     setLoading(true);
+    const path = 'pageviews';
     try {
-      const q = query(collection(db, 'pageviews'), orderBy('timestamp', 'desc'), limit(1000));
+      const q = query(collection(db, path), orderBy('timestamp', 'desc'), limit(1000));
       const snapshot = await getDocs(q);
       const fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Pageview));
       
       setData(fetchedData);
       processStats(fetchedData);
     } catch (err) {
-      console.error('Error fetching dashboard data:', err);
+      handleFirestoreError(err, OperationType.LIST, path);
     } finally {
       setLoading(false);
     }

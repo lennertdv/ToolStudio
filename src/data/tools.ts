@@ -22,6 +22,8 @@ export interface Tool {
   icon: any;
   inputs: ToolInput[];
   calculate: (values: Record<string, any>) => string | string[];
+  isPopular?: boolean;
+  isNew?: boolean;
 }
 
 export interface Category {
@@ -61,7 +63,8 @@ export const CATEGORIES: Category[] = [
           const factors: Record<string, number> = { m: 1, km: 1000, mi: 1609.34, ft: 0.3048, yd: 0.9144 };
           const result = (v.value * factors[v.from]) / factors[v.to];
           return `${v.value} ${v.from} = ${result.toFixed(4)} ${v.to}`;
-        }
+        },
+        isPopular: true
       },
       {
         id: 'weight',
@@ -89,7 +92,8 @@ export const CATEGORIES: Category[] = [
           const toKg: Record<string, number> = { kg: 1, lb: 0.453592, g: 0.001, oz: 0.0283495, st: 6.35029 };
           const result = (v.value * toKg[v.from]) / toKg[v.to];
           return `${v.value} ${v.from} = ${result.toFixed(4)} ${v.to}`;
-        }
+        },
+        isNew: true
       },
       {
         id: 'temperature',
@@ -203,7 +207,8 @@ export const CATEGORIES: Category[] = [
           else if (bmi < 30) cat = 'Overweight';
           else cat = 'Obese';
           return `Your BMI is ${bmi.toFixed(1)} (${cat})`;
-        }
+        },
+        isPopular: true
       },
       {
         id: 'calorie',
@@ -477,7 +482,8 @@ export const CATEGORIES: Category[] = [
             password += charset.charAt(Math.floor(Math.random() * charset.length));
           }
           return password;
-        }
+        },
+        isPopular: true
       },
       {
         id: 'uuid',
@@ -497,7 +503,8 @@ export const CATEGORIES: Category[] = [
             }));
           }
           return uuids.join('\n');
-        }
+        },
+        isNew: true
       },
       {
         id: 'color-palette',

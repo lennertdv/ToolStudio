@@ -2,6 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import { Favorites } from './pages/Favorites';
+import { Privacy } from './pages/Privacy';
+import { Terms } from './pages/Terms';
+import { Contact } from './pages/Contact';
 import { AdminLogin } from './pages/admin/Login';
 import { AdminIndex } from './pages/admin/Index';
 import { ToolTemplate } from './components/ToolTemplate';
@@ -15,6 +18,9 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/favorites" element={<Favorites />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<AdminIndex />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/:category/:toolId" element={<ToolTemplate />} />

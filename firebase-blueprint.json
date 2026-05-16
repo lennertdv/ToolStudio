@@ -12,12 +12,26 @@
         "userAgent": { "type": "string" }
       },
       "required": ["toolId", "categoryId", "timestamp", "path"]
+    },
+    "admin": {
+      "title": "Admin",
+      "description": "An administrator account",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string" }
+      },
+      "required": ["email"]
     }
   },
   "firestore": {
     "pageviews": {
       "schema": "pageview",
       "description": "Collection of all pageviews for analytics"
+    },
+    "admins": {
+      "schema": "admin",
+      "description": "Registered administrators with dashboard access"
     }
   }
 }

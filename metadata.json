@@ -2,5 +2,5 @@
   "name": "ToolStudio",
   "description": "A comprehensive aggregator of free online tools including converters, calculators, crypto tools, and generators.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
