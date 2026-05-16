@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, orderBy, limit, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, query, orderBy, limit, onSnapshot, Timestamp } from 'firebase/firestore';
 import { db, auth, handleFirestoreError, OperationType } from '@/src/lib/firebase';
 import { CATEGORIES } from '@/src/data/tools';
 import { 
@@ -33,46 +33,52 @@ export const Dashboard: React.FC = () => {
   const [trendData, setTrendData] = useState<any[]>([]);
   const [recentVisits, setRecentVisits] = useState<Pageview[]>([]);
 
-  const fetchData = async () => {
+  useEffect(() => {
     if (!db) return;
     setLoading(true);
     const path = 'pageviews';
-    try {
-      const q = query(collection(db, path), orderBy('timestamp', 'desc'), limit(1000));
-      const snapshot = await getDocs(q);
+    
+    const q = query(collection(db, path), orderBy('timestamp', 'desc'), limit(1000));
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       const fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Pageview));
-      
       setData(fetchedData);
       processStats(fetchedData);
-    } catch (err) {
-      handleFirestoreError(err, OperationType.LIST, path);
-    } finally {
       setLoading(false);
-    }
-  };
+    }, (err) => {
+      console.error("Firestore snapshot error:", err);
+      handleFirestoreError(err, OperationType.LIST, path);
+      setLoading(false);
+    });
 
-  useEffect(() => {
-    fetchData();
+    return () => unsubscribe();
   }, []);
 
   const processStats = (raw: Pageview[]) => {
     // 1. Tool Counts
     const toolCounts: Record<string, number> = {};
     raw.forEach(p => {
-      toolCounts[p.toolId] = (toolCounts[p.toolId] || 0) + 1;
+      if (p.toolId) {
+        toolCounts[p.toolId] = (toolCounts[p.toolId] || 0) + 1;
+      }
     });
 
     const sortedTools = Object.entries(toolCounts)
       .map(([id, count]) => {
         // Find tool name from CATEGORIES
         let name = id;
-        let catName = 'Unknown';
-        for (const cat of CATEGORIES) {
-          const t = cat.tools.find(tool => tool.id === id);
-          if (t) {
-            name = t.name;
-            catName = cat.name;
-            break;
+        let catName = id === 'home' ? 'Site' : 'Unknown';
+        
+        if (id === 'home') {
+          name = 'Home Page';
+        } else {
+          for (const cat of CATEGORIES) {
+            const t = cat.tools.find(tool => tool.id === id);
+            if (t) {
+              name = t.name;
+              catName = cat.name;
+              break;
+            }
           }
         }
         return { name, category: catName, views: count, percentage: (count / raw.length * 100).toFixed(1) };
@@ -85,20 +91,37 @@ export const Dashboard: React.FC = () => {
     // 2. Category Pie Chart
     const catCounts: Record<string, number> = {};
     raw.forEach(p => {
-      const cat = CATEGORIES.find(c => c.id === p.categoryId)?.name || 'Other';
-      catCounts[cat] = (catCounts[cat] || 0) + 1;
+      if (p.categoryId === 'home') {
+        catCounts['Home'] = (catCounts['Home'] || 0) + 1;
+      } else {
+        const cat = CATEGORIES.find(c => c.id === p.categoryId)?.name || 'Other';
+        catCounts[cat] = (catCounts[cat] || 0) + 1;
+      }
     });
 
     setCategoryData(Object.entries(catCounts).map(([name, value]) => ({ name, value })));
 
-    // 3. Trend Chart (last 30 days)
-    const last30Days = Array.from({ length: 30 }).map((_, i) => subDays(new Date(), i)).reverse();
-    const trend = last30Days.map(date => {
-      const dayStart = startOfDay(date);
-      const views = raw.filter(p => isSameDay(p.timestamp.toDate(), dayStart)).length;
-      return { date: format(date, 'MMM dd'), views };
+    // 3. Trend Chart (last 30 days) - Group by day first for efficiency
+    const dayCounts: Record<string, number> = {};
+    raw.forEach(p => {
+      if (p.timestamp) {
+        try {
+          const dayKey = format(p.timestamp.toDate(), 'yyyy-MM-dd');
+          dayCounts[dayKey] = (dayCounts[dayKey] || 0) + 1;
+        } catch (e) {
+          // Ignore invalid dates/null timestamps during insertion
+        }
+      }
     });
 
+    const last30Days = Array.from({ length: 30 }).map((_, i) => subDays(new Date(), i)).reverse();
+    const trend = last30Days.map(date => {
+      const dayKey = format(date, 'yyyy-MM-dd');
+      return { 
+        date: format(date, 'MMM dd'), 
+        views: dayCounts[dayKey] || 0 
+      };
+    });
     setTrendData(trend);
 
     // 4. Recent visits
@@ -113,12 +136,12 @@ export const Dashboard: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-white">
         <RefreshCw className="w-10 h-10 animate-spin text-[#0066cc] mb-4" />
-        <p className="text-gray-400">Loading Analytics Data...</p>
+        <p className="text-gray-400 font-mono text-sm tracking-widest uppercase">Initializing Real-time Analytics...</p>
       </div>
     );
   }
 
-  const todayViews = data.filter(p => isSameDay(p.timestamp.toDate(), new Date())).length;
+  const todayViews = data.filter(p => p.timestamp && isSameDay(p.timestamp.toDate(), new Date())).length;
   const avgViews = (data.length / Math.max(1, trendData.length)).toFixed(1);
 
   return (
@@ -130,13 +153,10 @@ export const Dashboard: React.FC = () => {
           <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest font-mono">Logged in as: {auth?.currentUser?.email}</p>
         </div>
         <div className="flex items-center gap-3">
-          <button 
-            onClick={fetchData}
-            className="flex items-center gap-2 px-4 py-2 bg-[#16213e] hover:bg-[#1a1a2e] border border-gray-700 rounded-lg text-xs font-bold transition-all text-gray-300"
-          >
-            <RefreshCw className="w-4 h-4" />
-            Refresh
-          </button>
+          <div className="flex items-center gap-2 px-4 py-2 bg-[#16213e] border border-[#0066cc]/30 rounded-lg text-xs font-bold text-[#00d4ff]">
+            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            Real-time
+          </div>
           <button 
             onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-500 rounded-lg text-xs font-bold transition-all"

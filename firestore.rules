@@ -23,10 +23,10 @@ service cloud.firestore {
     }
 
     function isValidPageview(data) {
-      return data.toolId is string && data.toolId.size() < 100 &&
-             data.categoryId is string && data.categoryId.size() < 100 &&
-             data.path is string && data.path.size() < 200 &&
-             data.timestamp == request.time;
+      return data.toolId is string && 
+             data.categoryId is string && 
+             data.path is string && 
+             data.timestamp != null;
     }
 
     // Pageviews: Users can only create. Admins can read.

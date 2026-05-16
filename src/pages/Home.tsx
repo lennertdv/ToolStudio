@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CATEGORIES } from '@/src/data/tools';
 import { AdSpace } from '@/src/components/AdSpace';
 import { useFavorites } from '@/src/context/FavoritesContext';
+import { logPageView } from '@/src/lib/analytics';
 import { motion } from 'motion/react';
 import { ArrowRight, Zap, Shield, Search, Star } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const { favorites } = useFavorites();
+
+  // Log home page view
+  useEffect(() => {
+    logPageView('home', 'home', '/');
+  }, []);
 
   const favoriteTools = favorites.map(favId => {
     const [catId, toolId] = favId.split(':');

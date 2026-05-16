@@ -21,21 +21,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       return;
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        // Check if user is in admins collection
-        try {
-          const adminDoc = await getDoc(doc(db, 'admins', currentUser.uid));
-          if (adminDoc.exists()) {
-            setIsAdmin(true);
-          } else {
-            setIsAdmin(true); // Default for setup
-          }
-        } catch (e) {
-          console.error("Admin check failed:", e);
-          setIsAdmin(true);
-        }
+        setIsAdmin(true); // Always true for now as per previous logic
       } else {
         navigate('/admin/login');
       }
@@ -49,7 +38,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return (
       <div className="min-h-screen bg-[#0f0f1e] flex flex-col items-center justify-center text-white">
         <div className="w-12 h-12 border-4 border-[#0066cc] border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p className="text-gray-400 font-mono text-sm tracking-widest uppercase">Verifying Session...</p>
+        <p className="text-gray-400 font-mono text-sm tracking-widest uppercase">Verifying Information...</p>
       </div>
     );
   }

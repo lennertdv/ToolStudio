@@ -3,13 +3,14 @@ import { db } from './firebase';
 
 export async function logPageView(categoryId: string, toolId: string, path: string) {
   try {
-    // 1. Local Storage tracking (as requested for MVP/local logic)
+    // 1. Local Storage tracking
     const localStats = JSON.parse(localStorage.getItem('toolStats') || '{}');
     localStats[path] = (localStats[path] || 0) + 1;
     localStorage.setItem('toolStats', JSON.stringify(localStats));
 
-    // 2. Firestore tracking (for the actual Admin Dashboard aggregation)
+    // 2. Firestore tracking
     if (db) {
+      console.log(`[Analytics] Logging view for ${toolId} in ${categoryId}`);
       await addDoc(collection(db, 'pageviews'), {
         toolId,
         categoryId,
@@ -17,8 +18,10 @@ export async function logPageView(categoryId: string, toolId: string, path: stri
         timestamp: serverTimestamp(),
         userAgent: navigator.userAgent
       });
+    } else {
+      console.warn('[Analytics] Firestore DB not initialized, skipping remote log');
     }
   } catch (error) {
-    console.error('Failed to log pageview:', error);
+    console.error('[Analytics] Failed to log pageview:', error);
   }
 }
