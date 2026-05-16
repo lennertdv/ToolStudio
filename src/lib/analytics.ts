@@ -9,13 +9,15 @@ export async function logPageView(categoryId: string, toolId: string, path: stri
     localStorage.setItem('toolStats', JSON.stringify(localStats));
 
     // 2. Firestore tracking (for the actual Admin Dashboard aggregation)
-    await addDoc(collection(db, 'pageviews'), {
-      toolId,
-      categoryId,
-      path,
-      timestamp: serverTimestamp(),
-      userAgent: navigator.userAgent
-    });
+    if (db) {
+      await addDoc(collection(db, 'pageviews'), {
+        toolId,
+        categoryId,
+        path,
+        timestamp: serverTimestamp(),
+        userAgent: navigator.userAgent
+      });
+    }
   } catch (error) {
     console.error('Failed to log pageview:', error);
   }

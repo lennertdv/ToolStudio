@@ -15,18 +15,26 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!auth || !db) {
+      setLoading(false);
+      navigate('/admin/login');
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         // Check if user is in admins collection
-        const adminDoc = await getDoc(doc(db, 'admins', currentUser.uid));
-        if (adminDoc.exists()) {
+        try {
+          const adminDoc = await getDoc(doc(db, 'admins', currentUser.uid));
+          if (adminDoc.exists()) {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(true); // Default for setup
+          }
+        } catch (e) {
+          console.error("Admin check failed:", e);
           setIsAdmin(true);
-        } else {
-          // If not in admins collection, we still let them in for this "frontend-only" exercise 
-          // because the user will bootstrap the first admin.
-          // In a real app, you'd redirect here.
-          setIsAdmin(true); // Default to true for now to allow initial setup
         }
       } else {
         navigate('/admin/login');

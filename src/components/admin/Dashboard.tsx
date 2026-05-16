@@ -34,6 +34,7 @@ export const Dashboard: React.FC = () => {
   const [recentVisits, setRecentVisits] = useState<Pageview[]>([]);
 
   const fetchData = async () => {
+    if (!db) return;
     setLoading(true);
     try {
       const q = query(collection(db, 'pageviews'), orderBy('timestamp', 'desc'), limit(1000));
@@ -104,7 +105,7 @@ export const Dashboard: React.FC = () => {
   };
 
   const handleLogout = () => {
-    auth.signOut();
+    auth?.signOut();
   };
 
   if (loading && data.length === 0) {
@@ -125,7 +126,7 @@ export const Dashboard: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-[#1a1a2e] p-6 rounded-xl border border-[#0066cc]/20 shadow-xl gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white tracking-tight">ToolStudio Admin <span className="text-[#0066cc]">Dashboard</span></h1>
-          <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest font-mono">Logged in as: {auth.currentUser?.email}</p>
+          <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest font-mono">Logged in as: {auth?.currentUser?.email}</p>
         </div>
         <div className="flex items-center gap-3">
           <button 

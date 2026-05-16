@@ -16,10 +16,11 @@ export const LoginForm: React.FC = () => {
     setError('');
     
     try {
+      if (!auth) throw new Error("Firebase Auth is not initialized. Check your environment variables.");
       await signInWithEmailAndPassword(auth, email, password);
       navigate('/admin');
     } catch (err: any) {
-      setError('Invalid email or password');
+      setError(err.message === "Firebase Auth is not initialized. Check your environment variables." ? err.message : 'Invalid email or password');
       console.error(err);
     } finally {
       setLoading(false);
