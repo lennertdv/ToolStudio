@@ -40,7 +40,7 @@ export const BlogHome: React.FC = () => {
               className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group overflow-hidden h-full"
             >
               <div className="p-8 flex flex-col flex-grow">
-                <div className="flex items-center gap-4 mb-4 text-xs font-medium text-gray-400">
+                <div className="flex items-center gap-4 mb-4 text-xs font-semibold text-gray-500">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
                     {new Date(post.date).toLocaleDateString()}

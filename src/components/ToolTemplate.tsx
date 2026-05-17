@@ -144,6 +144,7 @@ export const ToolTemplate: React.FC = () => {
         <div className="absolute right-0 top-0">
           <button
             onClick={() => toggleFavorite(category!, toolId!)}
+            aria-label={isFavorite(category!, toolId!) ? "Remove from favorites" : "Add to favorites"}
             className={cn(
               "p-3 rounded-full border transition-all hover:scale-110 active:scale-95",
               isFavorite(category!, toolId!) 
@@ -156,7 +157,7 @@ export const ToolTemplate: React.FC = () => {
           </button>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-[#1a1a2e] mb-4 tracking-tight">{tool.name}</h1>
-        <p className="text-gray-500 max-w-2xl mx-auto leading-relaxed">{tool.description}</p>
+        <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">{tool.description}</p>
       </div>
 
       <AdSpace position="top" />
@@ -265,13 +266,14 @@ export const ToolTemplate: React.FC = () => {
               className="mt-8"
             >
               <div className="flex justify-between items-center mb-2">
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">Result</h3>
+                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Result</h3>
                 <button
                   onClick={() => copyToClipboard(Array.isArray(result) ? result.join('\n') : result)}
-                  className="text-gray-400 hover:text-[#0066cc] transition-colors flex items-center space-x-1"
+                  aria-label="Copy result to clipboard"
+                  className="text-gray-500 hover:text-[#0066cc] transition-colors flex items-center space-x-1"
                 >
-                  {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                  <span className="text-xs">{copied ? 'Copied' : 'Copy'}</span>
+                  {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                  <span className="text-xs font-medium">{copied ? 'Copied' : 'Copy'}</span>
                 </button>
               </div>
               

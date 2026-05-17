@@ -63,7 +63,7 @@
 }
 
 .related-tool-card p {
-  color: #6b7280;
+  @apply text-gray-600;
   font-size: 0.875rem;
   line-height: 1.5;
 }

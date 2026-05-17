@@ -42,7 +42,7 @@ export const BlogPost: React.FC = () => {
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
-      <Link to="/blog" className="inline-flex items-center text-gray-500 hover:text-[#0066cc] transition-colors mb-8 group">
+      <Link to="/blog" className="inline-flex items-center text-gray-600 font-medium hover:text-[#0066cc] transition-colors mb-8 group">
         <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
         All Articles
       </Link>
@@ -56,7 +56,7 @@ export const BlogPost: React.FC = () => {
           {post.title}
         </motion.h1>
 
-        <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 border-b border-gray-100 pb-8">
+        <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 font-medium border-b border-gray-100 pb-8">
           <span className="flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             {new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -105,7 +105,7 @@ export const BlogPost: React.FC = () => {
               <h4 className="text-lg font-bold text-[#1a1a2e] mb-2 group-hover:text-[#0066cc] transition-colors line-clamp-1">
                 {other.title}
               </h4>
-              <p className="text-sm text-gray-500 line-clamp-2">{other.description}</p>
+              <p className="text-sm text-gray-600 line-clamp-2">{other.description}</p>
             </Link>
           ))}
         </div>

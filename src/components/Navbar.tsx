@@ -51,9 +51,14 @@ export const Navbar: React.FC = () => {
                   onMouseEnter={() => setActiveDropdown(cat.id)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <button className="flex items-center gap-1 hover:text-[#00d4ff] transition-colors">
+                  <button 
+                    aria-label={`Show ${cat.name} tools`}
+                    aria-expanded={activeDropdown === cat.id}
+                    aria-haspopup="true"
+                    className="flex items-center gap-1 hover:text-[#00d4ff] transition-colors"
+                  >
                     <span>{cat.name}</span>
-                    <ChevronDown className="w-4 h-4 opacity-50" />
+                    <ChevronDown className="w-4 h-4 opacity-70" />
                   </button>
 
                   {/* Dropdown */}
@@ -78,7 +83,7 @@ export const Navbar: React.FC = () => {
 
           {/* Trending & Mobile Toggle */}
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-4 text-[10px] bg-[#16213e] px-4 py-2 rounded-full border border-gray-700/50 uppercase tracking-widest">
+            <div className="hidden md:flex items-center gap-4 text-[10px] bg-[#16213e] px-4 py-2 rounded-full border border-gray-700/50 uppercase tracking-widest text-gray-300">
               <span className="text-gray-400">Trending:</span>
               <Link to="/calculators/bmi" className="text-[#00d4ff] underline hover:text-white transition-colors">BMI Calculator</Link>
             </div>
@@ -86,9 +91,10 @@ export const Navbar: React.FC = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
+                aria-label="Toggle navigation menu"
                 className="p-2 rounded-md hover:bg-[#16213e] transition-colors"
               >
-                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isOpen ? <X className="w-6 h-6 text-white" aria-hidden="true" /> : <Menu className="w-6 h-6 text-white" aria-hidden="true" />}
               </button>
             </div>
           </div>

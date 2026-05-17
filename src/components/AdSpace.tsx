@@ -13,7 +13,7 @@ export const AdSpace: React.FC<AdSpaceProps> = ({ className, position = 'top' })
       position === 'sidebar' ? "h-full" : "my-8",
       className
     )}>
-      <span className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2">Advertisement</span>
+      <span className="text-xs font-mono text-gray-500 font-bold uppercase tracking-widest mb-2">Advertisement</span>
       <div className="w-full bg-white/50 border border-gray-200 rounded flex items-center justify-center py-4">
         {/* Sample AdSense code placeholder */}
         {/* <ins className="adsbygoogle"
@@ -22,7 +22,7 @@ export const AdSpace: React.FC<AdSpaceProps> = ({ className, position = 'top' })
              data-ad-slot="XXXXXXXXXX"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins> */}
-        <p className="text-sm text-gray-500 italic">Google AdSense Space</p>
+        <p className="text-sm text-gray-600 italic">Google AdSense Space</p>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ export const About: React.FC = () => {
             <Shield className="w-6 h-6" />
           </div>
           <h3 className="font-bold text-xl text-[#1a1a2e] mb-3">Privacy First</h3>
-          <p className="text-sm text-gray-500">We don't store your input data. Calculations happen on-the-fly, and your privacy is our priority.</p>
+          <p className="text-sm text-gray-600">We don't store your input data. Calculations happen on-the-fly, and your privacy is our priority.</p>
         </motion.div>
 
         <motion.div 
@@ -55,7 +55,7 @@ export const About: React.FC = () => {
             <Zap className="w-6 h-6" />
           </div>
           <h3 className="font-bold text-xl text-[#1a1a2e] mb-3">Pure Speed</h3>
-          <p className="text-sm text-gray-500">Optimized for performance. No heavy scripts, no trackers, just the results you need, instantly.</p>
+          <p className="text-sm text-gray-600">Optimized for performance. No heavy scripts, no trackers, just the results you need, instantly.</p>
         </motion.div>
 
         <motion.div 
@@ -66,7 +66,7 @@ export const About: React.FC = () => {
             <Search className="w-6 h-6" />
           </div>
           <h3 className="font-bold text-xl text-[#1a1a2e] mb-3">100% Free</h3>
-          <p className="text-sm text-gray-500">No hidden fees, no "premium" versions. Every tool in our studio is accessible to everyone, always.</p>
+          <p className="text-sm text-gray-600">No hidden fees, no "premium" versions. Every tool in our studio is accessible to everyone, always.</p>
         </motion.div>
       </div>
 
@@ -74,7 +74,7 @@ export const About: React.FC = () => {
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#0066cc] opacity-10 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div className="relative z-10 text-center">
           <h2 className="text-3xl font-bold mb-6">Our Commitment</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto mb-10 text-lg leading-relaxed">
+          <p className="text-gray-300 max-w-2xl mx-auto mb-10 text-lg leading-relaxed">
             ToolStudio is an evolving project. We are constantly adding new tools based on user feedback. Our goal is to become the web's most trusted toolbox—functional, elegant, and ethically built.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -96,7 +96,7 @@ export const About: React.FC = () => {
         </div>
       </div>
       
-      <div className="text-center text-gray-400 text-sm italic">
+      <div className="text-center text-gray-600 text-sm italic">
         Made with <Heart className="w-4 h-4 inline text-red-500 mx-1 fill-red-500" /> by the ToolStudio Team.
       </div>
     </div>
