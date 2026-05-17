@@ -3,6 +3,8 @@ import { useParams, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { CATEGORIES, Tool } from '@/src/data/tools';
 import { toolMetadata } from '@/src/lib/toolMetadata';
+import { relatedTools as relatedToolsData } from '@/src/lib/relatedTools';
+import RelatedTools from './RelatedTools';
 import { AdSpace } from './AdSpace';
 import { useFavorites } from '@/src/context/FavoritesContext';
 import { logPageView } from '@/src/lib/analytics';
@@ -289,7 +291,10 @@ export const ToolTemplate: React.FC = () => {
 
       <AdSpace position="bottom" />
 
-      {/* Related Tools */}
+      {/* Internal Linking: Related Tools */}
+      <RelatedTools tools={relatedToolsData[normalizedPath] || []} />
+
+      {/* Related Tools (By Category) */}
       {relatedTools.length > 0 && (
         <div className="mt-16">
           <h3 className="text-2xl font-bold text-[#1a1a2e] mb-8">Related {currentCategory.name}</h3>
