@@ -9,6 +9,7 @@ import { AdminLogin } from './pages/admin/Login';
 import { AdminIndex } from './pages/admin/Index';
 import { BlogHome } from './pages/BlogHome';
 import { BlogPost } from './pages/BlogPost';
+import { About } from './pages/About';
 import { ToolTemplate } from './components/ToolTemplate';
 import { FavoritesProvider } from './context/FavoritesContext';
 import { GoogleAnalytics } from './components/GoogleAnalytics';
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/blog" element={<BlogHome />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/about" element={<About />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/contact" element={<Contact />} />
