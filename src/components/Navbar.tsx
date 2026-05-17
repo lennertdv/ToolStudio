@@ -30,6 +30,13 @@ export const Navbar: React.FC = () => {
                 <span>Favorites</span>
               </Link>
 
+              <Link 
+                to="/blog" 
+                className="px-3 py-1.5 rounded-full bg-[#16213e] border border-gray-700/50 hover:bg-[#0066cc] hover:border-[#0066cc] transition-all text-gray-300 hover:text-white"
+              >
+                <span>Blog</span>
+              </Link>
+
               {CATEGORIES.map((cat) => (
                 <div 
                   key={cat.id} 
@@ -94,6 +101,13 @@ export const Navbar: React.FC = () => {
           >
             <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
             <span>My Favorites</span>
+          </Link>
+          <Link
+            to="/blog"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center space-x-3 px-3 py-3 rounded-md text-base font-bold text-white hover:bg-[#0066cc] transition-colors border-b border-gray-800"
+          >
+            <span>Blog Articles</span>
           </Link>
           {CATEGORIES.map((cat) => (
             <div key={cat.id} className="py-2">

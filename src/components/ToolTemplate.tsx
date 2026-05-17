@@ -118,10 +118,6 @@ export const ToolTemplate: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const relatedTools = currentCategory.tools
-    .filter((t) => t.id !== toolId)
-    .slice(0, 3);
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <Helmet>
@@ -293,37 +289,6 @@ export const ToolTemplate: React.FC = () => {
 
       {/* Internal Linking: Related Tools */}
       <RelatedTools tools={relatedToolsData[normalizedPath] || []} />
-
-      {/* Related Tools (By Category) */}
-      {relatedTools.length > 0 && (
-        <div className="mt-16">
-          <h3 className="text-2xl font-bold text-[#1a1a2e] mb-8">Related {currentCategory.name}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {relatedTools.map((t) => (
-              <motion.div
-                key={t.id}
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="h-full"
-              >
-                <Link
-                  to={`/${category}/${t.id}`}
-                  className="bg-white p-6 block rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all group h-full"
-                >
-                  <motion.div 
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="bg-gray-50 w-10 h-10 rounded-lg flex items-center justify-center mb-4 text-[#0066cc] group-hover:bg-[#0066cc] group-hover:text-white transition-colors"
-                  >
-                    <t.icon className="w-6 h-6" />
-                  </motion.div>
-                  <h4 className="font-bold text-[#1a1a2e] mb-2">{t.name}</h4>
-                  <p className="text-xs text-gray-500 line-clamp-2">{t.description}</p>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
