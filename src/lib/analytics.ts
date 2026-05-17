@@ -21,6 +21,15 @@ export async function logPageView(categoryId: string, toolId: string, path: stri
     } else {
       console.warn('[Analytics] Firestore DB not initialized, skipping remote log');
     }
+
+    // 3. Google Analytics Event tracking
+    if (window.gtag) {
+      window.gtag('event', 'view_tool', {
+        tool_id: toolId,
+        category_id: categoryId,
+        page_path: path
+      });
+    }
   } catch (error) {
     console.error('[Analytics] Failed to log pageview:', error);
   }

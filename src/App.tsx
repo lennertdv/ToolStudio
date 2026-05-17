@@ -11,11 +11,13 @@ import { BlogHome } from './pages/BlogHome';
 import { BlogPost } from './pages/BlogPost';
 import { ToolTemplate } from './components/ToolTemplate';
 import { FavoritesProvider } from './context/FavoritesContext';
+import { GoogleAnalytics } from './components/GoogleAnalytics';
 
 export default function App() {
   return (
     <FavoritesProvider>
       <Router>
+        <GoogleAnalytics />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
