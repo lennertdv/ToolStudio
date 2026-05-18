@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/src/lib/firebase';
+import { getAuth } from '@/src/lib/firebase';
 import { useNavigate } from 'react-router-dom';
 
 export const LoginForm: React.FC = () => {
@@ -16,7 +15,9 @@ export const LoginForm: React.FC = () => {
     setError('');
     
     try {
+      const auth = await getAuth();
       if (!auth) throw new Error("Firebase Auth is not initialized. Check your environment variables.");
+      const { signInWithEmailAndPassword } = await import('firebase/auth');
       await signInWithEmailAndPassword(auth, email, password);
       navigate('/admin');
     } catch (err: any) {

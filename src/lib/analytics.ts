@@ -1,5 +1,4 @@
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from './firebase';
+import { getFirestore } from './firebase';
 
 export async function logPageView(categoryId: string, toolId: string, path: string) {
   try {
@@ -9,7 +8,10 @@ export async function logPageView(categoryId: string, toolId: string, path: stri
     localStorage.setItem('toolStats', JSON.stringify(localStats));
 
     // 2. Firestore tracking
+    const db = await getFirestore();
     if (db) {
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
+      
       console.log(`[Analytics] Logging view for ${toolId} in ${categoryId}`);
       await addDoc(collection(db, 'pageviews'), {
         toolId,
@@ -18,8 +20,6 @@ export async function logPageView(categoryId: string, toolId: string, path: stri
         timestamp: serverTimestamp(),
         userAgent: navigator.userAgent
       });
-    } else {
-      console.warn('[Analytics] Firestore DB not initialized, skipping remote log');
     }
 
     // 3. Google Analytics Event tracking
@@ -31,6 +31,6 @@ export async function logPageView(categoryId: string, toolId: string, path: stri
       });
     }
   } catch (error) {
-    console.error('[Analytics] Failed to log pageview:', error);
+    console.warn('[Analytics] Failed to log pageview:', error);
   }
 }

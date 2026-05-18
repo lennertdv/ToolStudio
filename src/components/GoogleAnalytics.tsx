@@ -23,17 +23,26 @@ export const GoogleAnalytics = () => {
 
     // Load gtag.js script if not already loaded
     if (!window.gtag) {
-      const script = document.createElement('script');
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-      script.async = true;
-      document.head.appendChild(script);
+      const loadGA = () => {
+        const script = document.createElement('script');
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+        script.async = true;
+        document.head.appendChild(script);
 
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function () {
-        window.dataLayer.push(arguments);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+        window.gtag('js', new Date());
+        window.gtag('config', GA_MEASUREMENT_ID);
       };
-      window.gtag('js', new Date());
-      window.gtag('config', GA_MEASUREMENT_ID);
+
+      // Defer loading slightly to prioritize main content
+      if (document.readyState === 'complete') {
+        setTimeout(loadGA, 1000);
+      } else {
+        window.addEventListener('load', () => setTimeout(loadGA, 1000));
+      }
     }
   }, []);
 

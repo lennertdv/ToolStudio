@@ -87,14 +87,16 @@ export const Home: React.FC = () => {
           >
             <button 
               onClick={scrollToTools}
-              className="px-8 py-3 bg-[#0066cc] hover:bg-[#0052a3] text-white rounded-lg text-sm font-bold shadow-xl transition-all flex items-center gap-2"
+              aria-label="Scroll down to explore all available tools"
+              className="px-8 py-3 bg-[#0066cc] hover:bg-[#0052a3] text-white rounded-lg text-sm font-bold shadow-xl transition-all flex items-center gap-2 active:scale-95"
             >
               <span>Explore All Tools</span>
               <ArrowRight className="w-4 h-4" />
             </button>
             <button 
               onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-8 py-3 bg-transparent border border-white/20 hover:border-white/40 text-white rounded-lg text-sm font-medium transition-all"
+              aria-label="Learn how ToolStudio works"
+              className="px-8 py-3 bg-transparent border border-white/40 hover:border-white/60 text-white rounded-lg text-sm font-bold transition-all active:scale-95"
             >
               How it Works
             </button>
@@ -203,7 +205,7 @@ export const Home: React.FC = () => {
                 <Search className="w-8 h-8" />
               </motion.div>
               <h3 className="font-bold text-xl mb-3">1. Choose Tool</h3>
-              <p className="text-gray-500 text-sm">Select from our wide range of converters, calculators, and generators.</p>
+              <p className="text-gray-600 text-sm">Select from our wide range of converters, calculators, and generators.</p>
             </div>
             <div className="text-center group">
               <motion.div 
@@ -214,7 +216,7 @@ export const Home: React.FC = () => {
                 <Zap className="w-8 h-8" />
               </motion.div>
               <h3 className="font-bold text-xl mb-3">2. Enter Data</h3>
-              <p className="text-gray-500 text-sm">Input your values and see real-time updates or instant calculations.</p>
+              <p className="text-gray-600 text-sm">Input your values and see real-time updates or instant calculations.</p>
             </div>
             <div className="text-center group">
               <motion.div 
@@ -225,7 +227,7 @@ export const Home: React.FC = () => {
                 <Shield className="w-8 h-8" />
               </motion.div>
               <h3 className="font-bold text-xl mb-3">3. Get Result</h3>
-              <p className="text-gray-500 text-sm">Get your accurate result instantly. No data is stored on our servers.</p>
+              <p className="text-gray-600 text-sm">Get your accurate result instantly. No data is stored on our servers.</p>
             </div>
           </div>
         </section>

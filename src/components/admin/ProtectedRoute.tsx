@@ -1,37 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, db } from '@/src/lib/firebase';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { getAuth } from '@/src/lib/firebase';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth || !db) {
-      setLoading(false);
-      navigate('/admin/login');
-      return;
-    }
+    let unsubscribe: (() => void) | undefined;
 
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        setIsAdmin(true); // Always true for now as per previous logic
-      } else {
+    const initAuth = async () => {
+      const auth = await getAuth();
+      if (!auth) {
+        setLoading(false);
         navigate('/admin/login');
+        return;
       }
-      setLoading(false);
-    });
 
-    return () => unsubscribe();
+      const { onAuthStateChanged } = await import('firebase/auth');
+      unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+          setUser(currentUser);
+        } else {
+          navigate('/admin/login');
+        }
+        setLoading(false);
+      });
+    };
+
+    initAuth();
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, [navigate]);
 
   if (loading) {

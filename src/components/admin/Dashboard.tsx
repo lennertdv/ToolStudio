@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, orderBy, limit, onSnapshot, Timestamp } from 'firebase/firestore';
-import { db, auth, handleFirestoreError, OperationType } from '@/src/lib/firebase';
+import { getFirestore, getAuth, handleFirestoreError, OperationType } from '@/src/lib/firebase';
 import { CATEGORIES } from '@/src/data/tools';
 import { 
   Eye, BarChart2, TrendingUp, Users, 
-  LogOut, RefreshCw, ChevronRight, Wrench
+  LogOut, RefreshCw, ChevronRight
 } from 'lucide-react';
 import { 
   PieChart, Pie, Cell, ResponsiveContainer, 
   LineChart, Line, XAxis, YAxis, Tooltip as RechartsTooltip, 
   BarChart, Bar, CartesianGrid
 } from 'recharts';
-import { format, startOfDay, subDays, isSameDay } from 'date-fns';
+import { format, subDays, isSameDay } from 'date-fns';
 
 // Types
 interface Pageview {
@@ -27,31 +26,45 @@ const CATEGORY_COLORS = ['#0066cc', '#00d4ff', '#a855f7', '#10b981', '#f59e0b', 
 
 export const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<Pageview[]>([]);
+  const [data, setData] = useState<any[]>([]);
   const [toolStats, setToolStats] = useState<any[]>([]);
   const [categoryData, setCategoryData] = useState<any[]>([]);
   const [trendData, setTrendData] = useState<any[]>([]);
-  const [recentVisits, setRecentVisits] = useState<Pageview[]>([]);
+  const [recentVisits, setRecentVisits] = useState<any[]>([]);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
-    if (!db) return;
-    setLoading(true);
-    const path = 'pageviews';
-    
-    const q = query(collection(db, path), orderBy('timestamp', 'desc'), limit(1000));
-    
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Pageview));
-      setData(fetchedData);
-      processStats(fetchedData);
-      setLoading(false);
-    }, (err) => {
-      console.error("Firestore snapshot error:", err);
-      handleFirestoreError(err, OperationType.LIST, path);
-      setLoading(false);
-    });
+    let unsubscribe: (() => void) | undefined;
 
-    return () => unsubscribe();
+    const initDashboard = async () => {
+      const db = await getFirestore();
+      const auth = await getAuth();
+      if (!db || !auth) return;
+
+      setCurrentUser(auth.currentUser);
+
+      const { collection, query, orderBy, limit, onSnapshot } = await import('firebase/firestore');
+      
+      setLoading(true);
+      const path = 'pageviews';
+      const q = query(collection(db, path), orderBy('timestamp', 'desc'), limit(1000));
+      
+      unsubscribe = onSnapshot(q, (snapshot) => {
+        const fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setData(fetchedData);
+        processStats(fetchedData);
+        setLoading(false);
+      }, (err) => {
+        handleFirestoreError(err, OperationType.LIST, path);
+        setLoading(false);
+      });
+    };
+
+    initDashboard();
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   const processStats = (raw: Pageview[]) => {
@@ -128,7 +141,8 @@ export const Dashboard: React.FC = () => {
     setRecentVisits(raw.slice(0, 20));
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const auth = await getAuth();
     auth?.signOut();
   };
 
@@ -150,7 +164,7 @@ export const Dashboard: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-[#1a1a2e] p-6 rounded-xl border border-[#0066cc]/20 shadow-xl gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white tracking-tight">ToolStudio Admin <span className="text-[#0066cc]">Dashboard</span></h1>
-          <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest font-mono">Logged in as: {auth?.currentUser?.email}</p>
+          <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest font-mono">Logged in as: {currentUser?.email}</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 px-4 py-2 bg-[#16213e] border border-[#0066cc]/30 rounded-lg text-xs font-bold text-[#00d4ff]">
