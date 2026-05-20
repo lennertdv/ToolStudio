@@ -1,10 +1,14 @@
+import React from 'react';
 import { 
   Ruler, Scale, Thermometer, Droplets, Banknote, 
   User, Flame, Calendar, Coins, Landmark, 
   Bitcoin, Pickaxe, Receipt, Type, Binary, 
   Braces, FileJson, Key, Fingerprint, Palette, 
-  Users 
+  Users, Luggage, TrendingUp
 } from 'lucide-react';
+import { generatePackingList } from './packingItems';
+import { PackingListResult } from '../components/tools/PackingListResult';
+import { SalaryResult } from '../components/tools/SalaryResult';
 
 export interface ToolInput {
   id: string;
@@ -21,9 +25,10 @@ export interface Tool {
   description: string;
   icon: any;
   inputs: ToolInput[];
-  calculate: (values: Record<string, any>) => string | string[];
+  calculate: (values: Record<string, any>) => string | string[] | any;
   isPopular?: boolean;
   isNew?: boolean;
+  renderResult?: (result: any) => React.ReactNode;
 }
 
 export interface Category {
@@ -307,6 +312,84 @@ export const CATEGORIES: Category[] = [
     ]
   },
   {
+    id: 'financial',
+    name: 'Financial',
+    tools: [
+      {
+        id: 'salary-calculator',
+        name: 'Salary Calculator',
+        description: 'Calculate your take-home pay after taxes and compare it with national averages.',
+        icon: Landmark,
+        inputs: [
+          { id: 'gross', label: 'Gross Annual Salary ($)', type: 'number', defaultValue: 50000 },
+          { id: 'country', label: 'Country', type: 'select', options: [
+            { value: 'USA', label: 'United States' },
+            { value: 'UK', label: 'United Kingdom' },
+            { value: 'Germany', label: 'Germany' },
+            { value: 'Belgium', label: 'Belgium' },
+            { value: 'Netherlands', label: 'Netherlands' },
+          ], defaultValue: 'USA' },
+          { id: 'taxRate', label: 'Approx. Tax Rate (%)', type: 'number', defaultValue: 25 },
+          { id: 'benefits', label: 'Monthly Benefits ($)', type: 'number', defaultValue: 0 }
+        ],
+        calculate: (v) => {
+          const annualGross = v.gross;
+          const rate = v.taxRate / 100;
+          const annualTax = annualGross * rate;
+          const annualNet = (annualGross - annualTax) + (v.benefits * 12);
+          
+          const medians: Record<string, number> = {
+            'USA': 56000,
+            'UK': 35000,
+            'Germany': 48000,
+            'Belgium': 45000,
+            'Netherlands': 42000
+          };
+
+          return {
+            gross: annualGross,
+            net: annualNet,
+            tax: annualTax,
+            taxRate: (annualTax / annualGross) * 100,
+            breakdown: [
+              { name: 'Income Tax', value: annualTax * 0.7, color: '#ef4444' },
+              { name: 'Social Security', value: annualTax * 0.2, color: '#f59e0b' },
+              { name: 'Misc Deductions', value: annualTax * 0.1, color: '#10b981' }
+            ],
+            averages: {
+              ratio: annualGross / (medians[v.country] || 40000),
+              country: v.country
+            }
+          };
+        },
+        renderResult: (data) => <SalaryResult data={data} />,
+        isPopular: true,
+        isNew: true
+      },
+      {
+        id: 'compound-interest',
+        name: 'Compound Interest',
+        description: 'Calculate how your money grows over time with interest and regular contributions.',
+        icon: TrendingUp,
+        inputs: [
+          { id: 'principal', label: 'Initial Investment ($)', type: 'number', defaultValue: 1000 },
+          { id: 'rate', label: 'Annual Interest Rate (%)', type: 'number', defaultValue: 7 },
+          { id: 'years', label: 'Time Period (Years)', type: 'number', defaultValue: 10 },
+          { id: 'contribution', label: 'Monthly Contribution ($)', type: 'number', defaultValue: 100 }
+        ],
+        calculate: (v) => {
+          const p = v.principal;
+          const r = v.rate / 100 / 12;
+          const n = v.years * 12;
+          const c = v.contribution;
+          
+          const futureValue = p * Math.pow(1 + r, n) + c * ((Math.pow(1 + r, n) - 1) / r);
+          return `Total Value: $${futureValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+        }
+      }
+    ]
+  },
+  {
     id: 'crypto',
     name: 'Crypto',
     tools: [
@@ -557,6 +640,44 @@ export const CATEGORIES: Category[] = [
           }
           return names.join('\n');
         }
+      }
+    ]
+  },
+  {
+    id: 'travel',
+    name: 'Travel',
+    tools: [
+      {
+        id: 'packing-list',
+        name: 'Packing List Generator',
+        description: 'Generate a smart, visual packing list based on your destination, duration, and activities.',
+        icon: Luggage,
+        inputs: [
+          { id: 'destination', label: 'Destination', type: 'text', defaultValue: 'Paris, France', placeholder: 'Where are you going?' },
+          { id: 'duration', label: 'Trip Duration (days)', type: 'number', defaultValue: 3 },
+          { id: 'weather', label: 'Expected Weather', type: 'select', options: [
+            { value: 'hot', label: 'Hot / Summer' },
+            { value: 'cold', label: 'Cold / Winter' },
+            { value: 'moderate', label: 'Moderate / Spring/Fall' },
+          ], defaultValue: 'moderate' },
+          { id: 'activities', label: 'Main Activities', type: 'select', options: [
+            { value: 'beach', label: 'Beach & Sun' },
+            { value: 'hiking', label: 'Hiking & Outdoors' },
+            { value: 'business', label: 'Business & Meetings' },
+            { value: 'general', label: 'Sightseeing / General' },
+          ], defaultValue: 'general' },
+          { id: 'gender', label: 'Gender/Pref', type: 'select', options: [
+            { value: 'm', label: 'Male' },
+            { value: 'f', label: 'Female' },
+            { value: 'n', label: 'Neutral' },
+          ], defaultValue: 'n' },
+        ],
+        calculate: (v) => {
+          return generatePackingList(v.duration, v.weather, [v.activities], v.gender);
+        },
+        renderResult: (data) => <PackingListResult data={data} />,
+        isPopular: true,
+        isNew: true
       }
     ]
   }

@@ -109,5 +109,20 @@ export const relatedTools: Record<string, RelatedTool[]> = {
     { name: 'Password Generator', path: '/generators/password', description: 'Generate passwords' },
     { name: 'UUID Generator', path: '/generators/uuid', description: 'Generate UUIDs' },
     { name: 'Color Palette Generator', path: '/generators/color-palette', description: 'Generate colors' }
+  ],
+  '/travel/packing-list': [
+    { name: 'Currency Converter', path: '/converters/currency', description: 'Convert travel budgets' },
+    { name: 'Temperature Converter', path: '/converters/temperature', description: 'Check destination weather' },
+    { name: 'Weight Converter', path: '/converters/weight', description: 'Check baggage weight units' }
+  ],
+  '/financial/salary-calculator': [
+    { name: 'Currency Converter', path: '/converters/currency', description: 'Check international rates' },
+    { name: 'Mortgage Calculator', path: '/calculators/mortgage', description: 'Calculate home loans' },
+    { name: 'Compound Interest', path: '/financial/compound-interest', description: 'Watch your savings grow' }
+  ],
+  '/financial/compound-interest': [
+    { name: 'Salary Calculator', path: '/financial/salary-calculator', description: 'Calculate take-home pay' },
+    { name: 'Mortgage Calculator', path: '/calculators/mortgage', description: 'Plan your home purchase' },
+    { name: 'Currency Converter', path: '/converters/currency', description: 'FX calculations' }
   ]
 };

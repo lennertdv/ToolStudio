@@ -110,4 +110,14 @@ export const toolMetadata: Record<string, ToolMeta> = {
     description: "Generate random male, female, or neutral names from different nationalities. Free online name generator.",
     keywords: "name generator, random name, name ideas",
   },
+  '/travel/packing-list': {
+    title: "Free Visual Packing List Generator - Smart Travel Checklist",
+    description: "Generate a smart, visual packing list based on your destination, duration, and activities. Download as PDF and track your baggage weight.",
+    keywords: "packing list generator, travel checklist, trip planner, luggage weight calculator",
+  },
+  '/financial/salary-calculator': {
+    title: "Salary Calculator - Tax & Net Income Breakdown",
+    description: "Calculate your take-home pay after taxes. See visual breakdowns of your annual, monthly, and weekly income with comparisons.",
+    keywords: "salary calculator, tax calculator, net income, take home pay, pay check estimator",
+  },
 };

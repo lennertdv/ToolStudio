@@ -18,7 +18,7 @@ interface Pageview {
   toolId: string;
   categoryId: string;
   path: string;
-  timestamp: Timestamp;
+  timestamp: any;
   userAgent: string;
 }
 
@@ -52,7 +52,7 @@ export const Dashboard: React.FC = () => {
       unsubscribe = onSnapshot(q, (snapshot) => {
         const fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setData(fetchedData);
-        processStats(fetchedData);
+        processStats(fetchedData as any);
         setLoading(false);
       }, (err) => {
         handleFirestoreError(err, OperationType.LIST, path);

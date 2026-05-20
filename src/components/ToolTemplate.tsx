@@ -265,23 +265,29 @@ export const ToolTemplate: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               className="mt-8"
             >
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Result</h3>
-                <button
-                  onClick={() => copyToClipboard(Array.isArray(result) ? result.join('\n') : result)}
-                  aria-label="Copy result to clipboard"
-                  className="text-gray-500 hover:text-[#0066cc] transition-colors flex items-center space-x-1"
-                >
-                  {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
-                  <span className="text-xs font-medium">{copied ? 'Copied' : 'Copy'}</span>
-                </button>
-              </div>
-              
-              <div className="bg-[#f0f8ff] border-l-4 border-[#0066cc] p-6 rounded-r-xl">
-                <pre className="text-xl font-bold whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
-                  {result}
-                </pre>
-              </div>
+              {tool.renderResult ? (
+                tool.renderResult(result)
+              ) : (
+                <>
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Result</h3>
+                    <button
+                      onClick={() => copyToClipboard(Array.isArray(result) ? result.join('\n') : result)}
+                      aria-label="Copy result to clipboard"
+                      className="text-gray-500 hover:text-[#0066cc] transition-colors flex items-center space-x-1"
+                    >
+                      {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                      <span className="text-xs font-medium">{copied ? 'Copied' : 'Copy'}</span>
+                    </button>
+                  </div>
+                  
+                  <div className="bg-[#f0f8ff] border-l-4 border-[#0066cc] p-6 rounded-r-xl">
+                    <pre className="text-xl font-bold whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
+                      {Array.isArray(result) ? result.join('\n') : result}
+                    </pre>
+                  </div>
+                </>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
