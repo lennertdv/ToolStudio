@@ -5,7 +5,6 @@ import { CATEGORIES, Tool } from '@/src/data/tools';
 import { toolMetadata } from '@/src/lib/toolMetadata';
 import { relatedTools as relatedToolsData } from '@/src/lib/relatedTools';
 import RelatedTools from './RelatedTools';
-import { AdSpace } from './AdSpace';
 import { useFavorites } from '@/src/context/FavoritesContext';
 import { logPageView } from '@/src/lib/analytics';
 import { cn } from '@/src/lib/utils';
@@ -160,8 +159,6 @@ export const ToolTemplate: React.FC = () => {
         <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">{tool.description}</p>
       </div>
 
-      <AdSpace position="top" />
-
       {/* Tool Box */}
       <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-gray-100">
         <div className="space-y-6">
@@ -292,8 +289,6 @@ export const ToolTemplate: React.FC = () => {
           )}
         </AnimatePresence>
       </div>
-
-      <AdSpace position="bottom" />
       
       {/* Tool Content / Guide for AdSense Compliance */}
       <div className="mt-16 space-y-12">

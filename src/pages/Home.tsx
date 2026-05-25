@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { CATEGORIES } from '@/src/data/tools';
-import { AdSpace } from '@/src/components/AdSpace';
 import { useFavorites } from '@/src/context/FavoritesContext';
 import { logPageView } from '@/src/lib/analytics';
 import { motion } from 'motion/react';
@@ -104,20 +103,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      <div className="max-w-[1400px] mx-auto px-4 py-12 flex flex-col lg:flex-row gap-8 justify-center">
-        {/* Left Ad */}
-        <aside className="hidden xl:block w-48 shrink-0">
-          <div className="sticky top-24 space-y-4">
-            <AdSpace position="sidebar" className="min-h-[600px]" />
-            <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 text-[10px] text-gray-400 font-mono text-center uppercase tracking-widest">
-              Sidebar Advertisement
-            </div>
-          </div>
-        </aside>
-
-        <div className="flex-1 max-w-[900px]">
-          <AdSpace position="top" />
-
+      <div className="max-w-5xl mx-auto px-4 py-12">
+        <div className="w-full">
           {favoriteTools.length > 0 && (
           <div className="mb-16">
             <h2 className="text-[#0066cc] font-bold text-xs tracking-widest uppercase border-b border-gray-200 pb-2 mb-6 flex items-center gap-2">
@@ -186,8 +173,6 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        <AdSpace position="bottom" />
-        
         {/* Why Choose Us - Extra Content for AdSense */}
         <section className="py-20 border-t border-gray-100">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -283,16 +268,6 @@ export const Home: React.FC = () => {
           </div>
         </section>
       </div>
-
-      {/* Right Ad */}
-      <aside className="hidden xl:block w-48 shrink-0">
-        <div className="sticky top-24 space-y-4">
-          <AdSpace position="sidebar" className="min-h-[600px]" />
-          <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 text-[10px] text-gray-400 font-mono text-center uppercase tracking-widest">
-            Vertical Banner Ad
-          </div>
-        </div>
-      </aside>
     </div>
   </div>
 );
