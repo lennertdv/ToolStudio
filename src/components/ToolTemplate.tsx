@@ -294,6 +294,53 @@ export const ToolTemplate: React.FC = () => {
       </div>
 
       <AdSpace position="bottom" />
+      
+      {/* Tool Content / Guide for AdSense Compliance */}
+      <div className="mt-16 space-y-12">
+        {(tool.guide || tool.description) && (
+          <section className="bg-white p-8 md:p-12 rounded-[2rem] border border-gray-100 shadow-sm">
+            <h2 className="text-2xl font-bold text-[#1a1a2e] mb-6">About {tool.name}</h2>
+            <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">
+              {tool.guide || `${tool.name} is a free online tool provided by ToolStudio. ${tool.description} This tool is designed to be fast, accurate, and completely private, as all calculations are performed locally in your browser.`}
+            </p>
+          </section>
+        )}
+
+        {tool.faqs && tool.faqs.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold text-[#1a1a2e] mb-8 px-4">Frequently Asked Questions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {tool.faqs.map((faq, idx) => (
+                <div key={idx} className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+                  <h3 className="font-bold text-[#1a1a2e] mb-2">{faq.q}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* General usage guide if no specific FAQs exist */}
+        {(!tool.faqs || tool.faqs.length === 0) && (
+          <section className="bg-gray-50 p-8 rounded-[2rem] border border-gray-100">
+            <h2 className="text-lg font-bold text-[#1a1a2e] mb-4">How to use this tool</h2>
+            <ul className="space-y-3 text-sm text-gray-600">
+              <li className="flex items-start gap-2">
+                <span className="bg-[#0066cc] text-white w-5 h-5 rounded-full flex items-center justify-center shrink-0 font-bold text-[10px] mt-0.5">1</span>
+                <span>Enter the required values in the input fields above.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="bg-[#0066cc] text-white w-5 h-5 rounded-full flex items-center justify-center shrink-0 font-bold text-[10px] mt-0.5">2</span>
+                <span>Click the <strong>{category === 'generators' ? 'Generate' : 'Calculate'}</strong> button.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="bg-[#0066cc] text-white w-5 h-5 rounded-full flex items-center justify-center shrink-0 font-bold text-[10px] mt-0.5">3</span>
+                <span>The result will appear instantly below the form. You can copy it to your clipboard with one click.</span>
+              </li>
+            </ul>
+          </section>
+        )}
+      </div>
 
       {/* Internal Linking: Related Tools */}
       <RelatedTools tools={relatedToolsData[normalizedPath] || []} />

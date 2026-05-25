@@ -29,6 +29,8 @@ export interface Tool {
   isPopular?: boolean;
   isNew?: boolean;
   renderResult?: (result: any) => React.ReactNode;
+  guide?: string;
+  faqs?: { q: string; a: string }[];
 }
 
 export interface Category {
@@ -213,6 +215,11 @@ export const CATEGORIES: Category[] = [
           else cat = 'Obese';
           return `Your BMI is ${bmi.toFixed(1)} (${cat})`;
         },
+        guide: "Body Mass Index (BMI) is a simple index of weight-for-height that is commonly used to classify underweight, overweight and obesity in adults. It is defined as the weight in kilograms divided by the square of the height in metres (kg/m²). For adults over 20 years old, BMI falls into one of the following categories: Underweight (below 18.5), Normal (18.5 – 24.9), Overweight (25.0 – 29.9), and Obese (30.0 or higher).",
+        faqs: [
+          { q: "What is a healthy BMI?", a: "For most adults, an ideal BMI is in the 18.5 to 24.9 range." },
+          { q: "Is BMI accurate for athletes?", a: "BMI does not distinguish between fat and muscle. Muscle is denser than fat, so very muscular people or athletes may have a high BMI even if their body fat is low." }
+        ],
         isPopular: true
       },
       {
@@ -566,6 +573,11 @@ export const CATEGORIES: Category[] = [
           }
           return password;
         },
+        guide: "A strong password is your first line of defense against cyberattacks. This generator creates random, high-entropy passwords that are difficult for both humans and computers to guess. By using a combination of uppercase letters, lowercase letters, numbers, and symbols, you significantly increase the time it would take for a brute-force attack to succeed. For maximum security, we recommend using passwords that are at least 16 characters long.",
+        faqs: [
+          { q: "Are these passwords stored?", a: "No. All passwords are generated locally in your browser using JavaScript. They are never sent to our server or stored anywhere." },
+          { q: "How long should my password be?", a: "Most experts recommend at least 12 characters, but 16 or more is significantly safer for critical accounts like email or banking." }
+        ],
         isPopular: true
       },
       {

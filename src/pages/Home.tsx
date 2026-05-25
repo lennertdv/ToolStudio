@@ -187,6 +187,57 @@ export const Home: React.FC = () => {
         </div>
 
         <AdSpace position="bottom" />
+        
+        {/* Why Choose Us - Extra Content for AdSense */}
+        <section className="py-20 border-t border-gray-100">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-[#1a1a2e] mb-6 tracking-tight">The Fastest Way to Get Small Tasks Done.</h2>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                In today's digital world, we often need quick answers. How many inches are in 15 centimeters? What is the BMI of a 180cm person? How do I generate a secure 20-character password?
+              </p>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                Most websites that offer these tools are cluttered with pop-ups, require account registration, or track your every move. <strong>ToolStudio</strong> was built to be different. We provide a clutter-free, privacy-focused experience where the tool is the star of the show.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/about" className="px-6 py-3 bg-[#0066cc] text-white rounded-xl font-bold hover:bg-[#0052a3] transition-all text-center">Learn Our Story</Link>
+                <Link to="/blog" className="px-6 py-3 bg-white border border-gray-200 text-[#1a1a2e] rounded-xl font-bold hover:bg-gray-50 transition-all text-center">Read Our Blog</Link>
+              </div>
+            </div>
+            <div className="bg-blue-50/50 p-8 md:p-12 rounded-[3rem] border border-blue-100">
+              <h3 className="text-xl font-bold text-[#1a1a2e] mb-6">Our Core Principles</h3>
+              <ul className="space-y-6">
+                <li className="flex items-start gap-4">
+                  <div className="bg-white p-2 rounded-lg text-[#0066cc] shadow-sm">
+                    <Shield className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#1a1a2e]">Privacy by Design</h4>
+                    <p className="text-sm text-gray-600">Calculations happen in your browser. We never see your private input data.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="bg-white p-2 rounded-lg text-[#0066cc] shadow-sm">
+                    <Zap className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#1a1a2e]">Instant Results</h4>
+                    <p className="text-sm text-gray-600">Optimized code ensures that your results are ready the moment you click.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="bg-white p-2 rounded-lg text-[#0066cc] shadow-sm">
+                    <Search className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#1a1a2e]">No Hidden Fees</h4>
+                    <p className="text-sm text-gray-600">All tools are 100% free with no premium tiers or locked features.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
         {/* Features Section */}
         <section id="features" className="py-20 border-t border-gray-100 scroll-mt-20">

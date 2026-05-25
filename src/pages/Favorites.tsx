@@ -24,16 +24,38 @@ export const Favorites: React.FC = () => {
       </div>
 
       {favoriteTools.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-lg p-12 text-center border border-gray-100">
-          <div className="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300">
-            <Star className="w-10 h-10" />
+        <div className="space-y-12">
+          <div className="bg-white rounded-[2.5rem] p-12 text-center border border-gray-100 shadow-sm">
+            <div className="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300">
+              <Star className="w-10 h-10" />
+            </div>
+            <h2 className="text-2xl font-black text-[#1a1a2e] mb-2">No Favorites Yet</h2>
+            <p className="text-gray-500 mb-8 max-w-sm mx-auto">Start adding tools to your favorites by clicking the star icon on any tool page for lightning-fast access.</p>
+            <Link to="/" className="inline-flex items-center space-x-2 bg-[#0066cc] text-white px-8 py-3 rounded-full font-bold hover:bg-[#0052a3] transition-all shadow-lg shadow-blue-500/20">
+              <span>View All Tools</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
-          <h2 className="text-xl font-bold text-[#1a1a2e] mb-2">No favorites yet</h2>
-          <p className="text-gray-500 mb-8">Start adding tools to your favorites by clicking the star icon on any tool page.</p>
-          <Link to="/" className="inline-flex items-center space-x-2 bg-[#0066cc] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#0052a3] transition-colors">
-            <span>Explore Tools</span>
-            <ArrowRight className="w-5 h-5" />
-          </Link>
+
+          <div>
+            <h2 className="text-xl font-bold text-[#1a1a2e] mb-8 px-2">Most Popular Tools This Week</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {CATEGORIES.flatMap(c => c.tools.filter(t => t.isPopular).map(t => ({ category: c, tool: t }))).slice(0, 6).map(({ category, tool }) => (
+                <Link
+                  key={`popular-${category.id}:${tool.id}`}
+                  to={`/${category.id}/${tool.id}`}
+                  className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all group"
+                >
+                  <div className="bg-[#f0f8ff] w-12 h-12 rounded-xl flex items-center justify-center text-[#0066cc] mb-4 group-hover:scale-110 transition-transform">
+                    <tool.icon className="w-7 h-7" />
+                  </div>
+                  <h3 className="font-bold text-[#1a1a2e] mb-1">{tool.name}</h3>
+                  <p className="text-[10px] text-[#0066cc] font-black uppercase tracking-widest mb-3">{category.name}</p>
+                  <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">{tool.description}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
